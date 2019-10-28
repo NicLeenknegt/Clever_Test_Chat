@@ -1,0 +1,5 @@
+.message_container {
+    width: inherit;
+    height: 85vh;
+    overflow-y: scroll;
+}
