@@ -1,11 +1,14 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import {ChatContainer} from './chat/ChatContainer'
+import {ChatContainer} from './components/chat/ChatContainer'
+import { Provider } from 'react-redux'
+import store from './redux/store' 
 
 const App: React.FC = () => {
   return (
-    <div className="container">
+    <Provider store={store}>
+      <div className="container">
         <ChatContainer/>
         <div className="context">
 
@@ -13,7 +16,9 @@ const App: React.FC = () => {
         <div className="recommendation">
 
         </div>
-    </div>
+      </div>
+    </Provider>
+    
   );
 }
 
