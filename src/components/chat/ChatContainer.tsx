@@ -1,7 +1,7 @@
 import React from 'react';
 import './ChatContainer.css'
-import {MessageInput} from './MessageInput'
-import {ChatRoom} from './ChatRoom'
+import MessageInput from './MessageInput'
+import ChatRoom from './ChatRoom'
 
 export class ChatContainer extends React.Component {
  
