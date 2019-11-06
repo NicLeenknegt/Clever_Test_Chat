@@ -1,0 +1,36 @@
+
+
+.entity_table {
+    width: 100%;
+    border-spacing: 0px;
+    margin: auto;
+}
+
+tbody th {
+    color: #7c848a;
+}
+
+tbody tr {
+
+    animation-name: fade-in;
+    animation-duration: 0.2s;
+}
+
+th {
+    text-align: center;
+    max-width: 0px;
+    padding: 5px 0px 5px 0px;
+    border-bottom: 1px solid rgb(124, 132, 138, 0.5);
+}
+
+
+@keyframes fade-in {
+    from {
+        margin-top: 10px;
+        opacity: 0;
+    }
+    to {
+        margin-top: 0px;
+        opacity: 1;
+    }
+}

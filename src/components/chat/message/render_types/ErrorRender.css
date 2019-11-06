@@ -1,0 +1,16 @@
+
+.error_message {
+    align-self: flex-start;
+    width: auto;
+    max-width: 70%;
+    min-height: auto;
+    margin: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    background-color: transparent;
+    border-radius: 2px;
+    font-size: 18px;
+    text-align: left;
+    padding: 5px;
+    overflow-wrap: break-word;
+    background-color: #f44336;
+}

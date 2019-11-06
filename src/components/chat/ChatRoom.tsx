@@ -1,6 +1,6 @@
 import React from 'react';
 import './ChatRoom.css'
-import {Message} from './Message'
+import Message from './message/Message'
 import { ChatState, MessageType } from '../../redux/message/types';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux';
@@ -12,14 +12,21 @@ interface ChatRoomProps {
 }
 
 class ChatRoom extends React.Component<ChatRoomProps> {
+    private scrollPoint:React.RefObject<HTMLDivElement> = React.createRef();
     state = {
         messages:[]
     }
-    
+
     componentDidMount() {
         this.props.thunkStartConversation("Hallo", {
             message:"none"
         } )
+    }
+
+    componentDidUpdate() {
+        if (this.scrollPoint.current !== null && this.props.chat.selectedMessage === this.props.chat.messages[this.props.chat.messages.length - 1]) 
+            this.scrollPoint.current.scrollIntoView({behavior:"smooth"})
+        
     }
 
     public render() {
@@ -28,10 +35,11 @@ class ChatRoom extends React.Component<ChatRoomProps> {
             <div className="message_container">
                {this.props.chat.messages.map( 
                    (message:MessageType, index:number) => {
-                    if (message !== undefined)
-                            return (<Message key={index} message={this.props.chat.messages[index]} renderType={message.renderType}/>)
+                        if (message !== undefined)
+                            return (<Message index={index} key={index} message={this.props.chat.messages[index]} renderType={message.renderType}/>)
                     }  
                 )}
+                <div ref={this.scrollPoint} ></div>
             </div>
         )
     }

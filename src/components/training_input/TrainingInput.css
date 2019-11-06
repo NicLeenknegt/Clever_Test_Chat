@@ -1,0 +1,34 @@
+.training_field {
+    display: block;
+    flex-direction: row;
+    height: auto;
+}
+
+.tag_container {
+    display: flex;
+
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.tag {
+    font-size: 1em;
+    display: inline;
+    padding: 5px 10px;
+    margin: 1px;
+    border: 1px solid rgb(0, 230, 180);
+    color: black;
+    border-radius: 5px;
+    font-weight: bold;
+    outline: none;
+}
+
+.tag:hover {
+    background-color: rgb(0, 230, 180);
+    color:white;
+}
+
+.tag:focus {
+    background-color: rgb(0, 230, 180);
+    color:white;
+}

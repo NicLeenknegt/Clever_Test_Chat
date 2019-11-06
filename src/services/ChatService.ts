@@ -17,6 +17,8 @@ export class ChatService {
         this.serviceUrl = `${conversationUrl}`
     }
 
+    
+
     public initiateConversation():Promise<any> {
         return fetch(
             new Request (
@@ -42,6 +44,7 @@ export class ChatService {
 
     private buildPayload(message:UserTextMessage):any {
         var context = JSON.parse(message.toJson()).context
+        context.resultNode = [context.resultNode]
         var input = JSON.parse(message.toJson()).input
         var json = JSON.stringify({
             "config": {
@@ -55,7 +58,7 @@ export class ChatService {
     }
 
     public sendMessage(message:UserTextMessage):Promise<any> {
-        console.log(JSON.parse(this.buildPayload(message)))
+        console.log(JSON.stringify(JSON.parse(this.buildPayload(message))));
         return fetch(
             new Request (
                 `${conversationUrl}/conversation/ck2dd21go003latt5ju9ee512/message`, {

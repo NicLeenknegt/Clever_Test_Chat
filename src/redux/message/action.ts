@@ -1,4 +1,4 @@
-import { MessageType, ADD_MESSAGE, MessageActionTypes, LOADING_MESSAGE, ERROR_MESSAGE } from './types'
+import { MessageType, ADD_MESSAGE, MessageActionTypes, LOADING_MESSAGE, ERROR_MESSAGE, SELECT_MESSAGE } from './types'
 
 export function addMessage(message:MessageType):MessageActionTypes {
     return {
@@ -20,3 +20,10 @@ export function errorMessage(message:MessageType):MessageActionTypes {
         payload: message
     }
 }
+
+export function selectMessage(message:MessageType):MessageActionTypes {
+    return {
+        type: SELECT_MESSAGE,
+        payload: message
+    }
+} 

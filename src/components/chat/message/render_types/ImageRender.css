@@ -1,0 +1,37 @@
+.image_container {
+    align-self: flex-start;
+    margin: 5px 10px 5px 10px;
+    max-width: 70%;
+}
+
+.image_container a {
+    font-size: 0.9em;
+    color: #757575;
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.link_container {
+    width: 70%;
+    height: 1em;
+}
+
+.bot_message {
+    display: inline-block;
+    align-self: flex-start;
+    overflow-wrap: break-word;
+    width: auto;
+    max-width: 70%;
+    min-height: auto;
+    margin: 5px 10px 5px 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    background-color: transparent;
+    border-radius: 2px;
+    font-size: 18px;
+    text-align: left;
+    color: whitesmoke;
+    background-color: #3C0078;
+    padding: 5px;
+}

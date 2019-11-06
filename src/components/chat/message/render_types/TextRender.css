@@ -1,0 +1,32 @@
+.user_message {
+    align-self: flex-end;
+    width: auto;
+    max-width: 70%;
+    min-height: auto;
+    margin: 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    background-color: transparent;
+    border-radius: 2px;
+    font-size: 18px;
+    text-align: right;
+    padding: 5px;
+    overflow-wrap: break-word;
+}
+
+.bot_message {
+    display: inline-block;
+    align-self: flex-start;
+    overflow-wrap: break-word;
+    width: auto;
+    max-width: 70%;
+    min-height: auto;
+    margin: 5px 10px 5px 10px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    background-color: transparent;
+    border-radius: 2px;
+    font-size: 18px;
+    text-align: left;
+    color: whitesmoke;
+    background-color: #3C0078;
+    padding: 5px;
+}

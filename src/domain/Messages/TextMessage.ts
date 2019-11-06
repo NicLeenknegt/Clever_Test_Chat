@@ -12,7 +12,8 @@ export class UserTextMessage implements MessageType {
         Object.assign(this, init);
     }
 
-    public fromJson(src:any){
+    public fromJson(src:any, context:any){
+        this.context = context
         for (var index in src.messages as any[]) {
             this.messages.push({
                 text:src.messages[index].text

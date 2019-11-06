@@ -29,15 +29,23 @@ class MessageInput extends React.Component<MessageInputProps> {
         })
     }
 
+    private handleKeyDown(e:React.KeyboardEvent<HTMLInputElement>) {
+        if (e.key == 'Enter') {
+            this.handleAddMessage()
+        }
+    }
+
     private handleAddMessage() {
-        this.props.thunkSendMessage(
-            new UserTextMessage({
-                messages: [
-                    new Text(this.state.message)
-                ],
-                context: this.props.chat.messages[this.props.chat.messages.length - 1].context                
-            })
-            )
+        if (this.state.message.trim() !== "") {
+            this.props.thunkSendMessage(
+                new UserTextMessage({
+                    messages: [
+                        new Text(this.state.message)
+                    ],
+                    context: this.props.chat.messages[this.props.chat.messages.length - 1].context                
+                })
+                ) 
+        }
         this.setState({
             message:""
         });
@@ -49,6 +57,7 @@ class MessageInput extends React.Component<MessageInputProps> {
                 <input className="input" 
                     placeholder="Type your message" 
                     type="text" 
+                    onKeyDown={e => this.handleKeyDown(e)}
                     value={this.state.message}
                     onChange={e => this.updateInput(e.target.value)}/>
                 <span className="underline"></span>
