@@ -1,51 +1,57 @@
 import React, { ReactElement } from "react";
 import './TrainingInput.css'
-import { TagContainer } from "./tag/TagContainer";
-import { NLPState } from "../../redux/nlp/types";
+import TagContainer from "./tag/TagContainer";
+import { ChatState } from "../../redux/message/types";
 import { AppState } from "../../redux";
 import { connect } from "react-redux";
 
 interface TrainingInputProps {
-    nlp:NLPState
+    chat:ChatState
 }
 
-class TrainingInput extends React.Component<TrainingInputProps> {
+interface TrainingInputState {
+    editActive:boolean
+}
 
-    private renderTags(input:string):ReactElement[] {
-        var splittedInput:string[] = input.split(" ")
-        var elements:ReactElement[] = []
-        splittedInput.map((input:string) => {
-            elements.push(<button className="tag">
-                {input}
-            </button>)
-        })
-        return elements
-    }
+class TrainingInput extends React.Component<TrainingInputProps,TrainingInputState> {
 
-    private tagClickHandler(input:string) {
-        console.log(input);
-    } 
-
-    componentDidUpdate() {
-        console.log(this.props.nlp.selectedTag)
+    /**
+     *
+     */
+    constructor(props:TrainingInputProps) {
+        super(props);
+        this.state = {
+            editActive:false
+        }
     }
 
     public render() {
 
         return (
             <div className="training_field">
-                <TagContainer input={this.props.nlp.input === undefined?"":this.props.nlp.input}/>
-                <div className="edit_button">
-
+                <div className="training_input_field">
+                    <TagContainer />
+                    <div className="text_input_wrapper">
+                        <input className="input"
+                            type="text"
+                            value={this.props.chat.inputMessage?this.props.chat.inputMessage.messages[0].text:""}
+                            />
+                        <span className="underline"></span>
+                    </div>
                 </div>
+                <button className={"edit_button" + " " } onClick={e => this.setState({editActive: !this.state.editActive})}>
+                    <span className="icon">
+
+                    </span>
+                </button>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state:AppState) => ({
-    nlp:state.nlp
-});
+    chat:state.message
+})
 
 export default connect(
     mapStateToProps

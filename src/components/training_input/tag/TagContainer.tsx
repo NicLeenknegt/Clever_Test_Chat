@@ -1,20 +1,26 @@
 import React, { ReactElement } from "react";
 import './TagContainer.css'
 import Tag from "./Tag";
+import { AppState } from "../../../redux";
+import { connect } from "react-redux";
+import { ChatState } from "../../../redux/message/types";
 
 interface TagContainerProps {
-    input:string
+    chat:ChatState
 }
 
-export class TagContainer extends React.Component<TagContainerProps> {
+class TagContainer extends React.Component<TagContainerProps> {
     
     public render() {
         var elements:ReactElement[] = []
-        console.log(this.props.input)
-        if (this.props.input.trim() !== "")
-            this.props.input.split(" ").map((input:string) => {
+        console.log(this.props.chat.inputMessage)
+
+        if (this.props.chat.inputMessage !== undefined) {
+            var message = this.props.chat.inputMessage.messages[0].text
+            message.split(" ").map((input:string) => {
                 elements.push(<Tag tagLine={input}/>)
             })
+        }
         return (
             <div className="tag_container">
                 {
@@ -23,4 +29,13 @@ export class TagContainer extends React.Component<TagContainerProps> {
             </div>
         )
     }
+    
 }
+
+const mapStateToProps = (state:AppState) => ({
+    chat:state.message
+});
+
+export default connect(
+    mapStateToProps
+)(TagContainer);

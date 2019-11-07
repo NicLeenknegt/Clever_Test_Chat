@@ -14,7 +14,7 @@ type MessageInputState  = {
 
 interface MessageInputProps {
     chat:ChatState
-    thunkSendMessage: any;
+    thunkSendMessage: any; 
 }
 
 class MessageInput extends React.Component<MessageInputProps> {

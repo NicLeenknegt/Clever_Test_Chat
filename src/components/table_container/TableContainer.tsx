@@ -1,14 +1,25 @@
 import React from "react";
 import { type } from "os";
 import './TableContainer.css'
-import { object } from "prop-types";
+import { object, func } from "prop-types";
 interface TableContainerProps {
-    rows:any[],
-    type: { new(): any } 
+    rows: any[],
+    type: { new(): any }
 }
 
 export class TableContainer extends React.Component<TableContainerProps> {
-    
+
+
+    private renderName(name:string) {
+        var test = ""
+        for (var i=0; i<name.length; i++) {
+            if (name[i].match(/[A-Z]/) !== null) {
+                test = name.slice(0, i) + " " + name.slice(i, name.length)
+            }
+        }
+        return test.trim() !== ""?test.toLocaleLowerCase():name.toLocaleLowerCase();
+    }
+
     public render() {
         var rows = this.props.rows
         var newRow = new this.props.type()
@@ -17,8 +28,10 @@ export class TableContainer extends React.Component<TableContainerProps> {
                 <thead>
                     <tr>
                         {
-                            Object.keys(newRow).map((key) => {
-                                return <th className="table_column_title">{key.charAt(0).toLocaleUpperCase() + key.slice(1)}</th>
+                            Object.keys(newRow).map((key, index:number) => {
+                                key = key.toLocaleLowerCase()
+                                if (!(Object.values(rows[0])[index] instanceof Function))
+                                    return <th className="table_column_title">{key.charAt(0).toLocaleUpperCase() + key.slice(1)}</th>
                             })
                         }
                     </tr>
@@ -30,11 +43,12 @@ export class TableContainer extends React.Component<TableContainerProps> {
                             return (
                                 <tr className="bordered_row">
                                     {
-                                        Object.values(entity).map((key:any, index:number) => {
-                                            if (key instanceof Function )
-                                                return <th>
-                                                    <button onClick={e => key(entity)} >{Object.keys(entity)[Object.values(entity).indexOf(key)]}</button>
+                                        Object.values(entity).map((key: any, index: number) => {
+                                            if (key instanceof Function) {
+                                                return <th className="button_container">
+                                                    <button onClick={e => key(entity)} >{this.renderName(Object.keys(entity)[Object.values(entity).indexOf(key)])}</button>
                                                 </th>
+                                            }
                                             return <th>
                                                 {key}
                                             </th>

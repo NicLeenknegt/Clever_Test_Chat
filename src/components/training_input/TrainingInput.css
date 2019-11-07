@@ -1,34 +1,86 @@
 .training_field {
-    display: block;
-    flex-direction: row;
-    height: auto;
+  display: flex;
+  flex-direction: row;
+  height: auto;
+  justify-content: center;
+}
+
+.training_input_field {
+  max-width: 50%;
 }
 
 .tag_container {
-    display: flex;
+  display: flex;
 
-    flex-direction: row;
-    flex-wrap: wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
 }
 
-.tag {
-    font-size: 1em;
-    display: inline;
-    padding: 5px 10px;
-    margin: 1px;
-    border: 1px solid rgb(0, 230, 180);
-    color: black;
-    border-radius: 5px;
-    font-weight: bold;
-    outline: none;
+.text_input_wrapper {
+  border-radius: 2px;
+  box-sizing: border-box;
+  height: 3vh;
+  width: 75%;
+  display: inline-block;
 }
 
-.tag:hover {
-    background-color: rgb(0, 230, 180);
-    color:white;
+.input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #CCC;
+  color: #555;
+  box-sizing: border-box;
+  font-size: 18px;
+  height: 100%;
+  width: 100%;
+
 }
 
-.tag:focus {
-    background-color: rgb(0, 230, 180);
-    color:white;
+.input:focus {
+  outline: none;
+}
+
+
+input:focus::-webkit-input-placeholder {
+  color: #3C0078;
+}
+
+.input:focus+.underline {
+  transform: scale(1);
+}
+
+.underline {
+  background-color: #3C0078;
+  display: block;
+  margin-top: -1px;
+  height: 2px;
+  -webkit-transform: scale(0, 1);
+  transform: scale(0, 1);
+  -webkit-transition: all 0.2s linear;
+  transition: all 0.2s linear;
+  width: 100%;
+}
+
+.edit_button {
+  margin-left: 5px;
+  display: flex;
+  outline: none;
+  height: 30px;
+  padding: 0px;
+  width: 30px;
+  border-radius: 100%;
+  justify-content: center;
+
+  border:none;
+}
+
+.edit_active .icon {
+  background-color: white;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  mask: url(/icon/edit-24px.svg);
+  background: black;
 }
