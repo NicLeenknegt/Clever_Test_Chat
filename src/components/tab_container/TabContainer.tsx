@@ -35,8 +35,8 @@ export class TabContainer extends React.Component<TabContainerProps,TabContainer
 
     public render() {
         return (
-            <div>
-                <header>
+            <div className="tab_container">
+                <div>
                     <div id="material-tabs">
                         {
                             Object.keys(this.props.hash).map((key, index) => {
@@ -44,7 +44,7 @@ export class TabContainer extends React.Component<TabContainerProps,TabContainer
                             } )
                         }
                     </div>
-                </header>
+                </div>
                 <div className="tab-content">
                     {
                         this.props.hash[this.state.key]

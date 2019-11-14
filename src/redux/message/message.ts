@@ -1,68 +1,205 @@
-import { ADD_MESSAGE,MessageType, ChatState, MessageActionTypes, LOADING_MESSAGE, ERROR_MESSAGE, SELECT_MESSAGE, SELECT_TAG } from './types'
+import { ADD_MESSAGE, MessageType, ChatState, MessageActionTypes, LOADING_MESSAGE, ERROR_MESSAGE, SELECT_MESSAGE, SELECT_TAG, SET_INPUT, SET_TO_INITIAL_STATE, IS_TESTING, FORWARD_PAGINATION, BACKWARD_PAGINATION, SET_MAX_PAGES, SET_PRODUCTS_PER_PAGE, SET_RECOMMENDATIONS } from './types'
 import { UserTextMessage } from '../../domain/Messages/TextMessage'
 
-const initialState:ChatState = {
+const initialState: ChatState = {
     messages: [],
     selectedMessage: new UserTextMessage,
     inputMessage: undefined,
     selectedTag: undefined,
     loading: false,
-    error: false
+    error: false,
+    isTesting: true,
+    productsPerPage:10,
+    pagination:0,
+    maxPages:0,
+    recommendations: []
 }
 
-export default function(state = initialState, action:MessageActionTypes):ChatState {
-    switch(action.type) {
+export default function (state = initialState, action: MessageActionTypes): ChatState {
+    switch (action.type) {
         case ADD_MESSAGE: {
             return {
                 messages: [...state.messages.filter((message) => message.renderType != "LOADING"), action.payload],
-                inputMessage: (action.payload.renderType === "USER_TEXT")?action.payload as UserTextMessage:state.inputMessage,
-                selectedTag:undefined ,
+                inputMessage: (action.payload.renderType === "USER_TEXT") ? (action.payload as UserTextMessage).messages[0].text : state.inputMessage,
+                selectedTag: undefined,
                 loading: false,
                 error: false,
-                selectedMessage: action.payload
+                selectedMessage: action.payload,
+                isTesting: state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:state.maxPages,
+                recommendations: state.recommendations
             }
         }
         case LOADING_MESSAGE: {
             return {
                 messages: [...state.messages, action.payload],
                 inputMessage: state.inputMessage,
-                selectedTag: state.selectedTag ,
+                selectedTag: state.selectedTag,
                 loading: true,
                 error: false,
-                selectedMessage: state.selectedMessage
+                selectedMessage: state.selectedMessage,
+                isTesting: state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:state.maxPages,
+                recommendations: state.recommendations
+
             }
         }
         case ERROR_MESSAGE: {
             return {
                 messages: [...state.messages.filter((message) => message.renderType != "LOADING"), action.payload],
                 inputMessage: state.inputMessage,
-                selectedTag: state.selectedTag ,
+                selectedTag: state.selectedTag,
                 loading: false,
                 error: true,
-                selectedMessage: action.payload
+                selectedMessage: action.payload,
+                isTesting: state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:state.maxPages,
+                recommendations: state.recommendations
+                
             }
         }
         case SELECT_MESSAGE: {
             return {
                 messages: state.messages,
                 inputMessage: state.inputMessage,
-                selectedTag: state.selectedTag ,
+                selectedTag: state.selectedTag,
                 loading: false,
                 error: false,
-                selectedMessage: action.payload
+                selectedMessage: action.payload,
+                isTesting: state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:state.maxPages,
+                recommendations: state.recommendations
+
             }
         }
         case SELECT_TAG: {
             return {
                 messages: state.messages,
                 inputMessage: state.inputMessage,
-                selectedTag: action.payload ,
+                selectedTag: action.payload,
                 loading: false,
                 error: false,
-                selectedMessage: state.selectedMessage
+                selectedMessage: state.selectedMessage,
+                isTesting: state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:state.maxPages,
+                recommendations: state.recommendations
+            }
+        }
+        case SET_INPUT: {
+            return {
+                messages: state.messages,
+                inputMessage: action.payload,
+                selectedTag: undefined,
+                loading: false,
+                error: false,
+                selectedMessage: state.selectedMessage,
+                isTesting: state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:state.maxPages,
+                recommendations: state.recommendations
+            }
+        }
+        case SET_TO_INITIAL_STATE: {
+            return {
+                messages: [],
+                selectedMessage: new UserTextMessage,
+                inputMessage: undefined,
+                selectedTag: undefined,
+                loading: false,
+                error: false,
+                isTesting: state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:state.maxPages,
+                recommendations: state.recommendations
+            }
+        }
+        case IS_TESTING: {
+            return  {
+                messages: state.messages,
+                selectedMessage: state.selectedMessage,
+                inputMessage: state.inputMessage,
+                selectedTag: state.selectedTag,
+                loading: state.loading,
+                error: state.loading,
+                isTesting: !state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:state.maxPages,
+                recommendations: state.recommendations
+            }
+        }
+        case FORWARD_PAGINATION: {
+            let newState = {...state}
+            newState.pagination++;
+            if (newState.pagination > newState.maxPages)
+                newState.pagination = 0
+            return newState
+        }
+        case BACKWARD_PAGINATION: {
+            let newState = {...state}
+            newState.pagination--;
+            if (newState.pagination < 0)
+                newState.pagination = newState.maxPages
+            return newState
+        }
+        case SET_MAX_PAGES: {
+            return  {
+                messages: state.messages,
+                selectedMessage: state.selectedMessage,
+                inputMessage: state.inputMessage,
+                selectedTag: state.selectedTag,
+                loading: state.loading,
+                error: state.loading,
+                isTesting: !state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:action.payload,
+                recommendations: state.recommendations
+            }
+        }
+        case SET_PRODUCTS_PER_PAGE: {
+            return  {
+                messages: state.messages,
+                selectedMessage: state.selectedMessage,
+                inputMessage: state.inputMessage,
+                selectedTag: state.selectedTag,
+                loading: state.loading,
+                error: state.loading,
+                isTesting: !state.isTesting,
+                productsPerPage: action.payload,
+                pagination:0,
+                maxPages:state.maxPages,
+                recommendations: state.recommendations
+            }
+        }
+        case SET_RECOMMENDATIONS: {
+            return  {
+                messages: state.messages,
+                selectedMessage: state.selectedMessage,
+                inputMessage: state.inputMessage,
+                selectedTag: state.selectedTag,
+                loading: state.loading,
+                error: state.loading,
+                isTesting: !state.isTesting,
+                productsPerPage: state.productsPerPage,
+                pagination:state.pagination,
+                maxPages:state.maxPages,
+                recommendations: action.payload
             }
         }
         default:
             return state
-    } 
+    }
 }

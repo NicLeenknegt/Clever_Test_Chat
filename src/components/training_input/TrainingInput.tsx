@@ -2,44 +2,54 @@ import React, { ReactElement } from "react";
 import './TrainingInput.css'
 import TagContainer from "./tag/TagContainer";
 import { ChatState } from "../../redux/message/types";
+import { setInput } from "../../redux/message/action";
 import { AppState } from "../../redux";
 import { connect } from "react-redux";
 
 interface TrainingInputProps {
-    chat:ChatState
+    chat: ChatState,
+    setInput: typeof setInput
 }
 
 interface TrainingInputState {
-    editActive:boolean
+    editActive: boolean
 }
 
-class TrainingInput extends React.Component<TrainingInputProps,TrainingInputState> {
+class TrainingInput extends React.Component<TrainingInputProps, TrainingInputState> {
 
     /**
      *
      */
-    constructor(props:TrainingInputProps) {
+    constructor(props: TrainingInputProps) {
         super(props);
         this.state = {
-            editActive:false
+            editActive: false
         }
     }
 
     public render() {
 
+        var inputValue: string = this.props.chat.inputMessage ? this.props.chat.inputMessage : "";
+
         return (
             <div className="training_field">
                 <div className="training_input_field">
-                    <TagContainer />
-                    <div className="text_input_wrapper">
-                        <input className="input"
-                            type="text"
-                            value={this.props.chat.inputMessage?this.props.chat.inputMessage.messages[0].text:""}
-                            />
-                        <span className="underline"></span>
-                    </div>
+                    {
+                        this.state.editActive ? (
+                            <div className="training_input_wrapper">
+                                <input className="input"
+                                    type="text"
+                                    value={inputValue}
+                                    onChange={e =>
+                                        this.props.setInput(e.target.value)
+                                    }
+                                />
+                                <span className="underline"></span>
+                            </div>
+                        ) : (<TagContainer />)
+                    }
                 </div>
-                <button className={"edit_button" + " " } onClick={e => this.setState({editActive: !this.state.editActive})}>
+                <button className={"edit_button" + " " + (this.state.editActive ? "edit_active" : "")} onClick={e => this.setState({ editActive: !this.state.editActive })}>
                     <span className="icon">
 
                     </span>
@@ -49,10 +59,11 @@ class TrainingInput extends React.Component<TrainingInputProps,TrainingInputStat
     }
 }
 
-const mapStateToProps = (state:AppState) => ({
-    chat:state.message
+const mapStateToProps = (state: AppState) => ({
+    chat: state.message
 })
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    { setInput }
 )(TrainingInput);

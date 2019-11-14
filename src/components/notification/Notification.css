@@ -1,0 +1,33 @@
+.floating_container {
+    position: absolute;
+    bottom: 10px;
+    right: 0%;
+    width: 400px;
+    height: 150px;
+    background-color: #3C0078;
+    animation-name: slide-in;
+    animation-duration: 1s;
+}
+
+.notification_field {
+    display: flex;
+    height: 150px;
+    flex-direction: row;
+}
+
+.notification_text {
+    height: 150px;
+    font-size: 1.3em;
+    align-self: baseline;
+}
+
+@keyframes slide-in {
+    from {
+        right: -300px;
+        opacity: 0;
+    }
+    to {
+        right: 0px;
+        opacity: 1;
+    }
+}

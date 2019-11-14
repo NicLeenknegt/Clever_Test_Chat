@@ -10,3 +10,27 @@
     color: #7c848a;
     align-self: center;
 }
+
+.context_container {
+    display: flex;
+    flex-direction: column;
+}
+
+.context_settings {
+    height: 3vh;
+}
+
+.context_table {
+    overflow-x: scroll;
+    height:25vh
+}
+
+.context_search_bar {
+    outline: none;
+    border:none;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, .6);
+    padding: 5px;
+    font-weight: bold;
+    font-size: 1em;
+    color: #7c848a;
+}

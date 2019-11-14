@@ -9,7 +9,7 @@ const defaultHeaders = new Headers({
 
 
 export class ChatService {
-    serviceUrl:string = ""
+    serviceUrl: string = ""
     /**
      *
      */
@@ -17,16 +17,19 @@ export class ChatService {
         this.serviceUrl = `${conversationUrl}`
     }
 
-    
 
-    public initiateConversation():Promise<any> {
+
+    public initiateConversation(isTesting: boolean = true): Promise<any> {
         return fetch(
-            new Request (
+            new Request(
                 `${conversationUrl}/conversation/create`,
                 {
                     method: 'POST',
-                    headers: defaultHeaders,
-                    body: JSON.stringify({ 
+                    headers: new Headers({
+                        'Content-Type': 'application/json',
+                        'zoovu-unst-test': isTesting ? 'true' : 'false'
+                    }),
+                    body: JSON.stringify({
                         "config": {
                             "embedToken": "cjyyd9fyv0001yc7kfrzq5tc2",
                             "publishVersion": 1
@@ -42,7 +45,7 @@ export class ChatService {
         )
     }
 
-    private buildPayload(message:UserTextMessage):any {
+    private buildPayload(message: UserTextMessage): any {
         var context = JSON.parse(message.toJson()).context
         context.resultNode = [context.resultNode]
         var input = JSON.parse(message.toJson()).input
@@ -57,18 +60,21 @@ export class ChatService {
         return json
     }
 
-    public sendMessage(message:UserTextMessage):Promise<any> {
+    public sendMessage(message: UserTextMessage, isTesting: boolean = true): Promise<any> {
         console.log(JSON.stringify(JSON.parse(this.buildPayload(message))));
         return fetch(
-            new Request (
+            new Request(
                 `${conversationUrl}/conversation/ck2dd21go003latt5ju9ee512/message`, {
-                    method: 'POST',
-                    headers:defaultHeaders,
-                    body:this.buildPayload(message)
-                }
+                method: 'POST',
+                headers: new Headers({
+                    'Content-Type': 'application/json',
+                    'zoovu-unst-test': isTesting ? 'true' : 'false'
+                }),
+                body: this.buildPayload(message)
+            }
             )
         )
-        .then(response => response.json())
+            .then(response => response.json())
     }
 
 }

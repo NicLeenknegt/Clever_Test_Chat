@@ -2,11 +2,12 @@
   display: flex;
   flex-direction: row;
   height: auto;
+  min-height: 6vh;
   justify-content: center;
 }
 
 .training_input_field {
-  max-width: 50%;
+  width: 50%;
 }
 
 .tag_container {
@@ -16,12 +17,11 @@
   flex-wrap: wrap;
 }
 
-.text_input_wrapper {
+.training_input_wrapper {
   border-radius: 2px;
   box-sizing: border-box;
-  height: 3vh;
-  width: 75%;
   display: inline-block;
+  width: 100%;
 }
 
 .input {
@@ -62,7 +62,7 @@ input:focus::-webkit-input-placeholder {
 }
 
 .edit_button {
-  margin-left: 5px;
+  margin-left: 20px;
   display: flex;
   outline: none;
   height: 30px;
@@ -72,6 +72,10 @@ input:focus::-webkit-input-placeholder {
   justify-content: center;
 
   border:none;
+}
+
+.edit_active {
+  background-color: #3C0078;
 }
 
 .edit_active .icon {

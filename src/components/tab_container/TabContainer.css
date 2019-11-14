@@ -1,18 +1,18 @@
 
-header {
+.tab_container {
     position: relative;
+    height: 100%;
 }
-
 .hide {
     display: none;
 }
+
 
 .tab-content {
     padding:25px;
 }
 
 #material-tabs {
-    position: relative;
     display: block;
   padding:0;
     border-bottom: 1px solid #e0e0e0;

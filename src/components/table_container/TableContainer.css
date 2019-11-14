@@ -1,5 +1,3 @@
-
-
 .entity_table {
     width: 100%;
     border-spacing: 0px;
@@ -29,59 +27,61 @@ th {
 
 th button {
     width: auto;
-  height: 3vh;
-  display: inline-block;
-  position: relative;
-  margin: 0px 10px 0px 10px;
-  font-size: 18px;
-  border-width: 0;
-  outline: none;
-  border-radius: 2px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
-  background-color: #3C0078;
-  color: #ecf0f1;
+    height: 3vh;
+    display: inline-block;
+    position: relative;
+    margin: 0px 10px 0px 10px;
+    font-size: 18px;
+    border-width: 0;
+    outline: none;
+    border-radius: 2px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+    background-color: #3C0078;
+    color: #ecf0f1;
 
-  transition: background-color .3s;
+    transition: background-color .3s;
 }
 
 th button:hover,
 th button:focus {
     background-color: rgb(53, 0, 105);
-  }
-  
+}
+
 
 th button::before {
     content: "";
-  
+
     position: absolute;
     top: 50%;
     left: 50%;
-  
+
     display: block;
     width: 0;
     padding-top: 0;
     border-radius: 100%;
-  
+
     background-color: rgba(236, 240, 241, .3);
-  
+
     -webkit-transform: translate(-50%, -50%);
     -moz-transform: translate(-50%, -50%);
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-  }
-  
+}
+
 th button:active:before {
     width: 120%;
     padding-top: 120%;
-  
+
     transition: width .3s ease-out, padding-top .3s ease-out;
-  }
+}
+
 @keyframes fade-in {
     from {
         margin-top: 10px;
         opacity: 0;
     }
+
     to {
         margin-top: 0px;
         opacity: 1;

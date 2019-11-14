@@ -5,23 +5,30 @@ import { MessageType } from "./types";
 import { LoadingMessage } from '../../domain/Messages/LoadingMessage'
 import { ReplyTextMessage, UserTextMessage } from '../../domain/Messages/TextMessage'
 import './action'
-import { loadingMessage, addMessage, errorMessage } from "./action";
+import { loadingMessage, addMessage, errorMessage, setToInitialState, setRecommendations, setProductsPerPage, setMaxPages } from "./action";
 import { ChatService } from "../../services/ChatService"
 import { ErrorMesage } from "../../domain/Messages/ErrorMessage";
 import { ImageMessage } from "../../domain/Messages/ImageMessage";
 import { ButtonMessage } from "../../domain/Messages/ButtonMessage";
+import { RecommendationService } from "../../services/RecommendationService";
+import { Recommendation } from "../../domain/Recommendation/Recommendation";
 
 export const thunkStartConversation = (
     embedToken: string,
     message: MessageType
-): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
+): ThunkAction<void, AppState, null, Action<string>> => async (dispatch,getState) => {
+    
+    dispatch(
+        setToInitialState()
+    )
+
     dispatch(
         loadingMessage(
             new LoadingMessage()
         )
     )
     new ChatService()
-        .initiateConversation()
+        .initiateConversation(getState().message.isTesting)
         .then(res => {
             dispatch(
                 addMessage(
@@ -41,7 +48,7 @@ export const thunkStartConversation = (
 
 export const thunkSendMessage = (
     message: UserTextMessage
-): ThunkAction<void, AppState, null, Action<string>> => async dispatch => {
+): ThunkAction<void, AppState, null, Action<string>> => async (dispatch,getState) => {
     dispatch(
         addMessage(
             message
@@ -53,9 +60,8 @@ export const thunkSendMessage = (
         )
     )
     new ChatService()
-        .sendMessage(message)
+        .sendMessage(message,getState().message.isTesting)
         .then(res => {
-            console.log(res)
             for (var index in res.data.responses) {
                 switch (res.data.responses[index].messageType) {
                     case "TEXT":
@@ -91,5 +97,31 @@ export const thunkSendMessage = (
                     new ErrorMesage({ error: err.message, context: message.context })
                 )
             )
+        })
+}
+
+export const thunkGetRecommendation = ():ThunkAction<void, AppState, null, Action<string>> => async (dispatch,getState) => {
+
+    new RecommendationService()
+        .getRecommendation(getState().message.productsPerPage, getState().message.pagination)
+        .then( res => {
+            console.log(res)
+            var recommendations:Recommendation[] = []
+            res.recommendations.forEach((element:any) => {
+                recommendations.push(new Recommendation().fromJson(element))
+            });
+            dispatch(
+                setRecommendations(
+                    recommendations
+                )
+            )
+            dispatch(
+                setMaxPages(
+                    res.maxPages
+                )
+            )
+        })
+        .catch(err => {
+            console.log(err);
         })
 }

@@ -30,7 +30,7 @@ export class TableContainer extends React.Component<TableContainerProps> {
                         {
                             Object.keys(newRow).map((key, index:number) => {
                                 key = key.toLocaleLowerCase()
-                                if (!(Object.values(rows[0])[index] instanceof Function))
+                                if (!(Object.values(newRow)[index] instanceof Function))
                                     return <th className="table_column_title">{key.charAt(0).toLocaleUpperCase() + key.slice(1)}</th>
                             })
                         }
@@ -47,6 +47,17 @@ export class TableContainer extends React.Component<TableContainerProps> {
                                             if (key instanceof Function) {
                                                 return <th className="button_container">
                                                     <button onClick={e => key(entity)} >{this.renderName(Object.keys(entity)[Object.values(entity).indexOf(key)])}</button>
+                                                </th>
+                                            }
+                                            console.log(key)
+                                            if ((typeof key === "string") && key.startsWith('https://')) {
+                                                return <th>
+                                                    <a href={key}>link</a>
+                                                </th>
+                                            }
+                                            if (typeof key === "boolean") {
+                                                return <th>
+                                                    {key?"true":"false"}
                                                 </th>
                                             }
                                             return <th>

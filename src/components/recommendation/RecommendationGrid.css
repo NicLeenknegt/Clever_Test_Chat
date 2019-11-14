@@ -1,0 +1,173 @@
+.recommendation_grid {
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+    overflow-x: scroll;
+    height: 45vh;
+}
+
+.recommendation_container {
+    position: relative;
+}
+
+.recommendation_box {
+    width: 30%;
+    margin: 10px;
+    border-radius: 20px;
+    height: auto;
+    border: 5px solid rgba(60, 0, 120, 0.6);
+    display: flex;
+    flex-direction: column;
+}
+
+.recommendation_settings {
+    height: 5vh;
+    width: 100%;
+    border-bottom: 1px solid rgba(60, 0, 120, 0.2);
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 7vw;
+    margin-right: 20px;
+}
+
+.pagination button {
+    height: 30px;
+    width: 22px;
+    padding: 0px;
+    outline: none;
+    background-color: white;
+    border: none;
+    display: flex;
+    justify-content: center;
+    border-radius: 4px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, .6);
+}
+
+.pagination button:hover .pagination_icon {
+    background: rgb(0, 230, 180);
+}
+.pagination button:active .pagination_icon {
+    background: white;
+}
+.pagination button:active  {
+    background: rgb(0, 230, 180);
+}
+
+.pagination p {
+    font-weight: bold;
+    color: #7c848a;
+}
+
+.products_per_page {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 10vw;
+}
+
+.products_per_page p {
+    font-size: .9em;
+    font-weight: bold;
+    color: #7c848a;
+
+}
+
+.products_per_page input {
+    width: 25%;
+    outline: none;
+    font-size: 1.1em;
+    font-weight: bold;
+    color: #7c848a;
+}
+
+.left {
+    mask: url(/icon/chevron_left-24px.svg);
+    padding-left: 8px;
+}
+
+.right {
+    mask: url(/icon/chevron_right-24px.svg);
+    padding-left: 8px;
+}
+
+.pagination_icon {
+    width: 16px;
+    height: 24px;
+    background: black
+}
+
+.recommendation_box p {
+    align-self: center;
+    font-weight: bold;
+    color: #7c848a;
+    font-size: .9em;
+    text-align: center;
+    width: 90%;
+}
+
+.recommendation_box table {
+    width: 80%;
+}
+
+.recommendation_box table thead th:first-child {
+    width: 50%;
+}
+
+.recommendation_box table thead th {
+    text-align: center;
+}
+
+
+.recommendation_box table th {
+    text-align: left;
+}
+
+.recommendation_box table tbody th:first-child {
+    text-align: right;
+    padding-right: 10px;
+}
+
+
+.long {
+    width: 90%;
+    flex-direction: row;
+}
+
+
+
+.recommendation_table {
+    font-size: 0.7em;
+    align-self: center;
+    width: 80%;
+    margin-bottom: 20px;
+}
+
+.recommendation_title {
+    padding: 0px;
+}
+
+.recommendation_table > p {
+    font-size: 1.1em;
+    width: 100%;
+}
+
+.recommendation_table table {
+    table-layout: auto;
+}
+
+.positive tbody th {
+    color: #8bc34a;
+}
+
+.negative tbody th {
+    color: #c62828;
+}
