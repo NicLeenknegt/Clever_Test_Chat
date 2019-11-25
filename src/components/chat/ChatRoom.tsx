@@ -1,44 +1,66 @@
-import React from 'react';
+import React, { ReactElement, ReactComponentElement } from 'react';
 import './ChatRoom.css'
 import Message from './message/Message'
 import { ChatState, MessageType } from '../../redux/message/types';
 import { connect } from 'react-redux';
 import { AppState } from '../../redux';
-import {thunkStartConversation} from "../../redux/message/thunk"
+import { thunkStartConversation } from "../../redux/message/thunk"
 
 interface ChatRoomProps {
-    chat:ChatState;
+    chat: ChatState;
     thunkStartConversation: any;
 }
 
 class ChatRoom extends React.Component<ChatRoomProps> {
-    private scrollPoint:React.RefObject<HTMLDivElement> = React.createRef();
-    state = {
-        messages:[]
+    private scrollPoint: React.RefObject<HTMLDivElement> = React.createRef();
+    private reactElements:ReactElement[] = []
+    private elements:MessageType[] = []
+    /**
+     *
+     */
+    constructor(props: ChatRoomProps) {
+        super(props);
+
     }
 
     componentDidMount() {
         this.props.thunkStartConversation("Hallo", {
-            message:"none"
-        } )
+            message: "none"
+        })
     }
 
     componentDidUpdate() {
-        if (this.scrollPoint.current !== null && this.props.chat.selectedMessage === this.props.chat.messages[this.props.chat.messages.length - 1]) 
-            this.scrollPoint.current.scrollIntoView({behavior:"smooth"})
+        if (this.scrollPoint.current !== null && this.props.chat.selectedMessage === this.props.chat.messages[this.props.chat.messages.length - 1])
+            this.scrollPoint.current.scrollIntoView({ behavior: "smooth" })
         
     }
 
     public render() {
-        console.log(this.props.chat.messages)
+        var currentElements = this.elements;
+        currentElements = currentElements.filter((message) => message.renderType != "LOADING")
+        if (this.props.chat.messages.length < currentElements.length){
+            this.reactElements = []
+            this.elements = []
+        }
+        if (this.props.chat.messages.length > currentElements.length) {
+            console.log(this.props.chat.messages)
+            this.props.chat.messages.slice(currentElements.length, this.props.chat.messages.length).forEach(
+                (message: MessageType) => {
+                    if (message !== undefined) {
+                        var index = this.props.chat.messages.indexOf(message)
+                        this.elements.forEach((value:MessageType) => {
+                            this.reactElements.splice(index, 1)
+                        })
+
+                        this.reactElements.push(<Message index={index} key={index} message={message} renderType={message.renderType} />)
+                        this.elements.filter((message) => message.renderType != "LOADING")
+                        this.elements.push(message)
+                    }
+                })
+        }
         return (
             <div className="message_container">
-               {this.props.chat.messages.map( 
-                   (message:MessageType, index:number) => {
-                        if (message !== undefined)
-                            return (<Message index={index} key={index} message={this.props.chat.messages[index]} renderType={message.renderType}/>)
-                    }  
-                )}
+                {this.reactElements.map((value: ReactElement) => { return value })}
                 <div ref={this.scrollPoint} ></div>
             </div>
         )

@@ -42,6 +42,7 @@ class Context extends React.Component<ContextProps, contextState> {
         var variables: Variable[] = []
         if (this.props.chat.selectedMessage.context !== undefined) {
             this.props.chat.selectedMessage.context.variables.forEach((variable: any) => {
+                console.log(variable)
                 variables.push(
                     new Variable().fromJson(variable)
                 )

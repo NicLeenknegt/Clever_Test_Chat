@@ -117,7 +117,7 @@ export const thunkGetRecommendation = ():ThunkAction<void, AppState, null, Actio
             )
             dispatch(
                 setMaxPages(
-                    res.maxPages
+                    (res.maxPages - 1)
                 )
             )
         })

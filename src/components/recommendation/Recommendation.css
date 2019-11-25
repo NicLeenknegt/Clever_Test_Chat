@@ -32,16 +32,17 @@
 
 
 .recommendation_box.long {
-    width: 90%;
+    width: 100%;
     flex-direction: row;
-    animation: elongate .5s linear;
     margin: 10px;
     border-radius: 20px;
     height: auto;
     border: 5px solid rgba(60, 0, 120, 0.6);
     display: flex;
+    align-self: flex-start;
+    animation: fade-in 0.2s ease-in;
+    order: -1;
 }
-
 
 
 .recommendation_table {
@@ -81,15 +82,15 @@
     border: 5px solid rgba(60, 0, 120, 0.6);
     display: flex;
     flex-direction: column;
+    animation: fade-in 0.2s ease-in;
 }
 
-
-
-@keyframes elongate{
+@keyframes fade-in {
     from {
-        width: 30%;
+        opacity: 0;
     }
+
     to {
-        width: 90%;
+        opacity: 1;
     }
 }

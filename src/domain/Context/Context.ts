@@ -28,6 +28,7 @@ export class Variable {
     }
 
     public fromJson(src:any):Variable {
+
         this.name = src.context;
         this.value = src.value === undefined?"":"\"" + src.value + "\""; 
         this.type = src.contextType;
