@@ -5,6 +5,7 @@ export class ImageMessage implements MessageType {
     context: any;
     question:string = ""
     images:Image[] = []
+    index: number = 0
 
     constructor(init?:Partial<ImageMessage>) {
         Object.assign(this, init)
@@ -14,7 +15,7 @@ export class ImageMessage implements MessageType {
         this.context = context
         this.question = src.question
         for (var index in src.images) {
-            this.images.push(
+            this.images.push( 
                 new  Image ({
                     text:src.images[index].text,
                     url:src.images[index].url

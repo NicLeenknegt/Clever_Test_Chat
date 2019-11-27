@@ -1,10 +1,6 @@
 import { UserTextMessage } from "../domain/Messages/TextMessage"
 
 const conversationUrl = 'http://localhost:5000/api/v2'
-const defaultHeaders = new Headers({
-    'Content-Type': 'application/json',
-    'zoovu-unst-test': 'true'
-})
 
 
 
@@ -47,7 +43,8 @@ export class ChatService {
 
     private buildPayload(message: UserTextMessage): any {
         var context = JSON.parse(message.toJson()).context
-        context.resultNode = [context.resultNode]
+        if (!Array.isArray(context.resultNodes))
+            context.resultNodes = [context.resultNodes]
         var input = JSON.parse(message.toJson()).input
         var json = JSON.stringify({
             "config": {

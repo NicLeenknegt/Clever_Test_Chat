@@ -31,9 +31,10 @@ class ChatContainer extends React.Component<ChatContainerProps, ChatContainerSta
     }
 
     public render() {
-        return (
+        return ( 
             <div className="chat_container">
                 <div className="setting_container">
+                    
                     <div className="settings">
                         <button className="refresh_button" onClick={(e) => {
                             this.setState({ animating: !this.state.animating });

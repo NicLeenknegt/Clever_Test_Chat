@@ -18,7 +18,7 @@
     text-align: center;
     height:inherit;
     display: flex;
-    align-items: center;
+    align-items: center; 
     flex-direction: row;
 }
 .data_input {
@@ -30,7 +30,7 @@
 }
 
 .data_checkbox {
-    margin: 5px
+    margin: 5px 
 }
 
 .data_label {
@@ -41,6 +41,8 @@
     height: 4vh;
     width: inherit;
     position: relative;
+    display: flex;
+    flex-direction: row;
 }
 
 .refresh_button {

@@ -101,7 +101,7 @@ class NLP extends React.Component<NLPProps, NLPState> {
             return (<p className="empty_field">NO INTENTS</p>)
     }
 
-    private renderTrainintInput() {
+    private renderTrainingInput() {
         var messages = [...this.props.chat.messages]
         if (messages.filter((message: MessageType) => { return message.renderType === "USER_TEXT" }).length !== 0) {
             return (<TrainingInput/>)
@@ -126,9 +126,9 @@ class NLP extends React.Component<NLPProps, NLPState> {
                     }
                 </div>
                 <div className="entity_field">
-                    <p className="table_title">Input</p>
+                    <p className="table_title">Input <strong className="table_title_grey">(last message)</strong></p>
                     {
-                        this.renderTrainintInput()
+                        this.renderTrainingInput()
                     }
 
                 </div>

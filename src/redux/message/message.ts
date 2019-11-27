@@ -1,25 +1,26 @@
-import { ADD_MESSAGE, MessageType, ChatState, MessageActionTypes, LOADING_MESSAGE, ERROR_MESSAGE, SELECT_MESSAGE, SELECT_TAG, SET_INPUT, SET_TO_INITIAL_STATE, IS_TESTING, FORWARD_PAGINATION, BACKWARD_PAGINATION, SET_MAX_PAGES, SET_PRODUCTS_PER_PAGE, SET_RECOMMENDATIONS } from './types'
+import { ADD_MESSAGE, ChatState, MessageActionTypes, LOADING_MESSAGE, ERROR_MESSAGE, SELECT_MESSAGE, SELECT_TAG, SET_INPUT, SET_TO_INITIAL_STATE, IS_TESTING, FORWARD_PAGINATION, BACKWARD_PAGINATION, SET_MAX_PAGES, SET_PRODUCTS_PER_PAGE, SET_RECOMMENDATIONS, SET_QUESTION_FLOW } from './types'
 import { UserTextMessage } from '../../domain/Messages/TextMessage'
 
 const initialState: ChatState = {
     messages: [],
-    selectedMessage: new UserTextMessage,
+    selectedMessage: new UserTextMessage(),
     inputMessage: undefined,
     selectedTag: undefined,
     loading: false,
     error: false,
     isTesting: true,
     productsPerPage:10,
-    pagination:0,
+    pagination:1,
     maxPages:0,
-    recommendations: []
+    recommendations: [],
+    questionFlow:[]
 }
 
 export default function (state = initialState, action: MessageActionTypes): ChatState {
     switch (action.type) {
         case ADD_MESSAGE: {
             return {
-                messages: [...state.messages.filter((message) => message.renderType != "LOADING"), action.payload],
+                messages: [...state.messages.filter((message) => message.renderType !== "LOADING"), action.payload],
                 inputMessage: (action.payload.renderType === "USER_TEXT") ? (action.payload as UserTextMessage).messages[0].text : state.inputMessage,
                 selectedTag: undefined,
                 loading: false,
@@ -29,7 +30,8 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:state.maxPages,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
             }
         }
         case LOADING_MESSAGE: {
@@ -44,13 +46,14 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:state.maxPages,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
 
             }
         }
         case ERROR_MESSAGE: {
             return {
-                messages: [...state.messages.filter((message) => message.renderType != "LOADING"), action.payload],
+                messages: [...state.messages.filter((message) => message.renderType !== "LOADING"), action.payload],
                 inputMessage: state.inputMessage,
                 selectedTag: state.selectedTag,
                 loading: false,
@@ -60,7 +63,8 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:state.maxPages,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
                 
             }
         }
@@ -76,7 +80,8 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:state.maxPages,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
 
             }
         }
@@ -92,7 +97,8 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:state.maxPages,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
             }
         }
         case SET_INPUT: {
@@ -107,7 +113,8 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:state.maxPages,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
             }
         }
         case SET_TO_INITIAL_STATE: {
@@ -122,7 +129,8 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:state.maxPages,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
             }
         }
         case IS_TESTING: {
@@ -137,20 +145,21 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:state.maxPages,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
             }
         }
         case FORWARD_PAGINATION: {
             let newState = {...state}
             newState.pagination++;
             if (newState.pagination > newState.maxPages)
-                newState.pagination = 0
+                newState.pagination = 1
             return newState
         }
         case BACKWARD_PAGINATION: {
             let newState = {...state}
             newState.pagination--;
-            if (newState.pagination < 0)
+            if (newState.pagination < 1)
                 newState.pagination = newState.maxPages
             return newState
         }
@@ -166,7 +175,8 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:action.payload,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
             }
         }
         case SET_PRODUCTS_PER_PAGE: {
@@ -181,7 +191,8 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: action.payload,
                 pagination:0,
                 maxPages:state.maxPages,
-                recommendations: state.recommendations
+                recommendations: state.recommendations,
+                questionFlow:state.questionFlow
             }
         }
         case SET_RECOMMENDATIONS: {
@@ -196,8 +207,14 @@ export default function (state = initialState, action: MessageActionTypes): Chat
                 productsPerPage: state.productsPerPage,
                 pagination:state.pagination,
                 maxPages:state.maxPages,
-                recommendations: action.payload
+                recommendations: action.payload,
+                questionFlow:state.questionFlow
             }
+        }
+        case SET_QUESTION_FLOW:  {
+            let newState = {...state}
+            newState.questionFlow = action.payload
+            return newState
         }
         default:
             return state

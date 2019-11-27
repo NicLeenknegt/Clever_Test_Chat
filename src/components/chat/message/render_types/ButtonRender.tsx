@@ -3,7 +3,6 @@ import React,{ ReactElement } from "react";
 import {IRenderBuilder} from "../../../../utils/render_factory/builder/RenderBuilder";
 import { ReactElementBuilder } from "../../../../utils/render_factory/builder/ReactElementBuilder";
 import { ButtonMessage } from "../../../../domain/Messages/ButtonMessage";
-import { UserTextMessage,Text } from "../../../../domain/Messages/TextMessage";
 import './ButtonRender.css'
 export class ButtonRender implements IRenderType<ReactElement[]> {
 
@@ -18,15 +17,15 @@ export class ButtonRender implements IRenderType<ReactElement[]> {
 
     render(): IRenderBuilder<ReactElement[]> {
         return new ReactElementBuilder( [
-            <div>
+            <div key={this.message.index} >
                 <div className="bot_message" >
                     {this.message.question}
                 </div>
                 <div className="button_list_container">
                     {
-                        this.message.buttons.map((button) => {
+                        this.message.buttons.map((button, index:number) => {
                             return (
-                                <div className="button_list_item">
+                                <div key={index} className="button_list_item">
                                     <button className="button" value={button.text}>
                                         {button.title}
                                     </button>

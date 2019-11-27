@@ -5,7 +5,7 @@ import { MessageType } from "./types";
 import { LoadingMessage } from '../../domain/Messages/LoadingMessage'
 import { ReplyTextMessage, UserTextMessage } from '../../domain/Messages/TextMessage'
 import './action'
-import { loadingMessage, addMessage, errorMessage, setToInitialState, setRecommendations, setProductsPerPage, setMaxPages } from "./action";
+import { loadingMessage, addMessage, errorMessage, setToInitialState, setRecommendations, setProductsPerPage, setMaxPages, setQuestionFlow } from "./action";
 import { ChatService } from "../../services/ChatService"
 import { ErrorMesage } from "../../domain/Messages/ErrorMessage";
 import { ImageMessage } from "../../domain/Messages/ImageMessage";
@@ -16,8 +16,8 @@ import { Recommendation } from "../../domain/Recommendation/Recommendation";
 export const thunkStartConversation = (
     embedToken: string,
     message: MessageType
-): ThunkAction<void, AppState, null, Action<string>> => async (dispatch,getState) => {
-    
+): ThunkAction<void, AppState, null, Action<string>> => async (dispatch, getState) => {
+
     dispatch(
         setToInitialState()
     )
@@ -35,6 +35,12 @@ export const thunkStartConversation = (
                     new ReplyTextMessage().fromJson(res.data.responses[0], res.data.context)
                 )
             )
+            dispatch(
+                thunkGetQuestionsFlow()
+            )
+            dispatch(
+                thunkGetRecommendation()
+            )
         }
 
         ).catch(err => {
@@ -48,7 +54,7 @@ export const thunkStartConversation = (
 
 export const thunkSendMessage = (
     message: UserTextMessage
-): ThunkAction<void, AppState, null, Action<string>> => async (dispatch,getState) => {
+): ThunkAction<void, AppState, null, Action<string>> => async (dispatch, getState) => {
     dispatch(
         addMessage(
             message
@@ -60,7 +66,7 @@ export const thunkSendMessage = (
         )
     )
     new ChatService()
-        .sendMessage(message,getState().message.isTesting)
+        .sendMessage(message, getState().message.isTesting)
         .then(res => {
             for (var index in res.data.responses) {
                 switch (res.data.responses[index].messageType) {
@@ -87,6 +93,13 @@ export const thunkSendMessage = (
                         )
                         break;
                 }
+
+                dispatch(
+                    thunkGetQuestionsFlow()
+                )
+                dispatch(
+                    thunkGetRecommendation()
+                )
             }
 
         })
@@ -100,14 +113,13 @@ export const thunkSendMessage = (
         })
 }
 
-export const thunkGetRecommendation = ():ThunkAction<void, AppState, null, Action<string>> => async (dispatch,getState) => {
+export const thunkGetRecommendation = (): ThunkAction<void, AppState, null, Action<string>> => async (dispatch, getState) => {
 
     new RecommendationService()
-        .getRecommendation(getState().message.productsPerPage, getState().message.pagination)
-        .then( res => {
-            console.log(res)
-            var recommendations:Recommendation[] = []
-            res.recommendations.forEach((element:any) => {
+        .getRecommendation(getState().message.productsPerPage, (getState().message.pagination - 1))
+        .then(res => {
+            var recommendations: Recommendation[] = []
+            res.recommendations.forEach((element: any) => {
                 recommendations.push(new Recommendation().fromJson(element))
             });
             dispatch(
@@ -117,8 +129,26 @@ export const thunkGetRecommendation = ():ThunkAction<void, AppState, null, Actio
             )
             dispatch(
                 setMaxPages(
-                    (res.maxPages - 1)
+                    (res.maxPages)
                 )
+            )
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
+
+export const thunkGetQuestionsFlow = (): ThunkAction<void, AppState, null, Action<string>> => async (dispatch, getState) => {
+    new RecommendationService()
+        .getQuestionFlow()
+        .then(res => {
+            var answers: string[] = []
+            res.steps[0].questions[0].answers.forEach((element: any) => {
+                if (element.selected === true)
+                    answers.push(element.answerText)
+            })
+            dispatch(
+                setQuestionFlow(answers)
             )
         })
         .catch(err => {

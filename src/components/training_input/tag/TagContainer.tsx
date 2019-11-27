@@ -17,7 +17,7 @@ class TagContainer extends React.Component<TagContainerProps> {
 
         if (this.props.chat.inputMessage !== undefined) {
             var message = this.props.chat.inputMessage
-            message.split(" ").map((input:string) => {
+            message.split(" ").forEach((input:string) => {
                 if (input !== "")
                     elements.push(<Tag tagLine={input}/>)
             })

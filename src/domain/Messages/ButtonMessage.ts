@@ -6,6 +6,7 @@ export class ButtonMessage implements MessageType {
     question:string = ""
     isHorizontal:boolean = false
     buttons:Button[] = []
+    index:number = 0
 
     constructor(init?:Partial<ButtonMessage>) {
         Object.assign(this, init)

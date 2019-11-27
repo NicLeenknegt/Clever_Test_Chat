@@ -18,7 +18,7 @@ export class ErrorRender implements IRenderType<ReactElement[]> {
     render(): IRenderBuilder<ReactElement[]> {
         console.log("ERROR_CHECK")
         return new ReactElementBuilder([(
-            <div className="error_message">
+            <div key={this.message.index} className="error_message">
                 {this.message.error}
             </div>
         )])

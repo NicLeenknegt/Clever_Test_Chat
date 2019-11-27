@@ -1,10 +1,10 @@
-import { UserTextMessage } from "../../domain/Messages/TextMessage";
 import { Recommendation } from "../../domain/Recommendation/Recommendation";
 
 export interface MessageType {
 
     renderType: string,
-    context?: any
+    context?: any,
+    index?:number
 }
 
 export interface ChatState {
@@ -18,7 +18,8 @@ export interface ChatState {
     productsPerPage: number,
     pagination: number,
     maxPages: number,
-    recommendations: Recommendation[]
+    recommendations: Recommendation[],
+    questionFlow:string[]
 }
 
 export const ADD_MESSAGE = "ADD_MESSAGE";
@@ -34,6 +35,7 @@ export const BACKWARD_PAGINATION = "BACKWARD_PAGINATION";
 export const SET_MAX_PAGES = "SET_MAX_PAGES";
 export const SET_PRODUCTS_PER_PAGE = "SET_PRODUCTS_PER_PAGE";
 export const SET_RECOMMENDATIONS = "SET_RECOMMENDATIONS";
+export const SET_QUESTION_FLOW = "SET_QUESTION_FLOW";
 
 interface addMessageAction {
     type: typeof ADD_MESSAGE,
@@ -99,6 +101,11 @@ interface setRecommendations {
     payload: Recommendation[]
 }
 
+interface setQuestionFlow {
+    type: typeof SET_QUESTION_FLOW,
+    payload: string[]
+}
+
 export type MessageActionTypes = addMessageAction
     | loadingMessageAction
     | errorMessageAction
@@ -112,3 +119,4 @@ export type MessageActionTypes = addMessageAction
     | setMaxPages
     | setProductsPerPage
     | setRecommendations
+    | setQuestionFlow

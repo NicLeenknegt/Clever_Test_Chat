@@ -1,4 +1,4 @@
-import React, { ReactElement, ReactComponentElement } from 'react';
+import React, { ReactElement } from 'react';
 import './ChatRoom.css'
 import Message from './message/Message'
 import { ChatState, MessageType } from '../../redux/message/types';
@@ -15,13 +15,6 @@ class ChatRoom extends React.Component<ChatRoomProps> {
     private scrollPoint: React.RefObject<HTMLDivElement> = React.createRef();
     private reactElements:ReactElement[] = []
     private elements:MessageType[] = []
-    /**
-     *
-     */
-    constructor(props: ChatRoomProps) {
-        super(props);
-
-    }
 
     componentDidMount() {
         this.props.thunkStartConversation("Hallo", {
@@ -37,13 +30,12 @@ class ChatRoom extends React.Component<ChatRoomProps> {
 
     public render() {
         var currentElements = this.elements;
-        currentElements = currentElements.filter((message) => message.renderType != "LOADING")
+        currentElements = currentElements.filter((message) => message.renderType !== "LOADING")
         if (this.props.chat.messages.length < currentElements.length){
             this.reactElements = []
             this.elements = []
         }
         if (this.props.chat.messages.length > currentElements.length) {
-            console.log(this.props.chat.messages)
             this.props.chat.messages.slice(currentElements.length, this.props.chat.messages.length).forEach(
                 (message: MessageType) => {
                     if (message !== undefined) {
@@ -51,9 +43,8 @@ class ChatRoom extends React.Component<ChatRoomProps> {
                         this.elements.forEach((value:MessageType) => {
                             this.reactElements.splice(index, 1)
                         })
-
                         this.reactElements.push(<Message index={index} key={index} message={message} renderType={message.renderType} />)
-                        this.elements.filter((message) => message.renderType != "LOADING")
+                        this.elements.filter((message) => message.renderType !== "LOADING")
                         this.elements.push(message)
                     }
                 })

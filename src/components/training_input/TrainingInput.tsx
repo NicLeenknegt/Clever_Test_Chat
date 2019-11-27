@@ -1,4 +1,4 @@
-import React, { ReactElement } from "react";
+import React from "react";
 import './TrainingInput.css'
 import TagContainer from "./tag/TagContainer";
 import { ChatState } from "../../redux/message/types";

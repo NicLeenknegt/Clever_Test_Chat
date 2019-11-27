@@ -1,4 +1,4 @@
-import React, { ReactComponentElement, ReactElement, ButtonHTMLAttributes } from 'react';
+import React, { ReactElement } from 'react';
 import './Message.css'
 import { MessageType, ChatState } from '../../../redux/message/types';
 import { UserTextMessage, Text } from '../../../domain/Messages/TextMessage'
@@ -7,7 +7,6 @@ import { selectMessage } from '../../../redux/message/action'
 import { connect } from 'react-redux';
 import { RenderFactory } from '../../../utils/render_factory/RenderFactory';
 import { AppState } from '../../../redux';
-import { array } from 'prop-types';
 interface MessageProps {
     index: number,
     chat: ChatState,
@@ -30,7 +29,7 @@ class Message extends React.Component<MessageProps, { border: string }> {
     }
 
     private handleClick(e: any) {
-        if ((e.target as HTMLInputElement).type == "radio")
+        if ((e.target as HTMLInputElement).type === "radio")
             return;
         if ((e.target as HTMLButtonElement).value !== undefined) {
             this.props.thunkSendMessage(
@@ -48,13 +47,12 @@ class Message extends React.Component<MessageProps, { border: string }> {
     private renderResultNodes(): ReactElement[] {
         var context = this.props.message.context
         var reactElements: ReactElement[] = []
-        if (context !== undefined && context.resultNode !== undefined && this.props.message.renderType !== "USER_TEXT") {
-            console.log(context.resultNode);
-        if (Array.isArray(context.resultNode)) {
-                console.log("ARRAY_CHECK");
-                (context.resultNode as any[]).forEach((node: any) => {
+        if (context !== undefined && context.resultNodes !== undefined && this.props.message.renderType !== "USER_TEXT") {
+            
+            if (Array.isArray(context.resultNodes)) {
+                (context.resultNodes as any[]).forEach((node: any, index: number) => {
                     reactElements.push(
-                        <div className="result_node_container">
+                        <div key={index} className="result_node_container">
                             {node.name}
                         </div>
                     )
@@ -62,8 +60,8 @@ class Message extends React.Component<MessageProps, { border: string }> {
                 )
             } else {
                 reactElements.push(
-                    <div className="result_node_container">
-                        {context.resultNode.name}
+                    <div key={0} className="result_node_container">
+                        {context.resultNodes.name}
                     </div>
                 )
 
@@ -75,7 +73,7 @@ class Message extends React.Component<MessageProps, { border: string }> {
 
     public render() {
         return (
-            <div id="message_row" onClick={e => this.handleClick(e)} style={{ border: this.props.chat.selectedMessage === this.props.message ? "solid 3px rgb(60, 0, 120,0.5)" : "solid 3px transparent" }} >
+            <div id="message_row" key={this.props.chat.messages.indexOf(this.props.chat.selectedMessage)} onClick={e => this.handleClick(e)} style={{ border: this.props.chat.selectedMessage === this.props.message ? "solid 3px rgb(60, 0, 120,0.5)" : "solid 3px transparent" }} >
                 <div className="message_row_container">
                     {
                         new RenderFactory()

@@ -18,7 +18,7 @@ class Tag extends React.Component<TagProps> {
                 {this.props.tagLine}
             </button>
         )
-    }
+    } 
 }
 
 const mapStateToProps = (state:AppState) => ({

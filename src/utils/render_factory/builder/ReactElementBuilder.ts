@@ -1,5 +1,5 @@
 import { IRenderBuilder } from "./RenderBuilder";
-import React, { ReactElement } from "react";
+import { ReactElement } from "react";
 
 export class ReactElementBuilder implements IRenderBuilder<ReactElement[]> {
 

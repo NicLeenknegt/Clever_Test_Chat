@@ -24,3 +24,9 @@
   -webkit-box-shadow: none;
   box-shadow: none;
 }
+
+.table_title_grey {
+    color: #7c848a;
+    font-weight: bold;
+    font-size: .80em;
+}

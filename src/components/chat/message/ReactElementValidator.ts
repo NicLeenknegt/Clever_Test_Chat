@@ -1,6 +1,6 @@
 import { IInputValidator } from "../../../utils/render_factory/input_validator/InputValidator";
 import { RenderSelector } from "../../../utils/render_factory/RenderSelector"
-import React, { ReactElement } from 'react'
+import { ReactElement } from 'react'
 import {MessageType} from '../../../redux/message/types'
 import { IRenderType } from "../../../utils/render_factory/render_type/RenderType";
 import { TextRender } from "./render_types/TextRender";
@@ -16,7 +16,7 @@ export class ReactElementValidator implements IInputValidator {
     validate(input: any): RenderSelector | null {
         input = input as MessageType
         if (input !== undefined) {
-            console.log(input)
+            input.index = this.renderTypes.length
             switch(input.renderType) {
                 case "IMAGE":
                     this.renderTypes.push(new ImageRender(input));
@@ -31,13 +31,12 @@ export class ReactElementValidator implements IInputValidator {
                     this.renderTypes.push(new ButtonRender(input));
                     break;
                 case "LOADING":
-                    this.renderTypes.push(new LoadingRender());
+                    this.renderTypes.push(new LoadingRender(this.renderTypes.length));
                     break;
                 case "ERROR":
                     this.renderTypes.push(new ErrorRender(input));
                     break;
             }
-            console.log(this.renderTypes)
             return new RenderSelector(this.renderTypes)
         }
         return null

@@ -1,6 +1,6 @@
 import React from "react";
 import './TabContainer.css'
-import { ConnectedComponent } from "react-redux";
+
 
 interface IHash {
     [etails:string] : React.ReactElement
@@ -40,7 +40,7 @@ export class TabContainer extends React.Component<TabContainerProps,TabContainer
                     <div id="material-tabs">
                         {
                             Object.keys(this.props.hash).map((key, index) => {
-                                return <a className={key === this.state.key?"active":""} onClick={e => this.handleClick(key)} >{key}</a>
+                                return <a key={index} className={key === this.state.key?"active":""} onClick={e => this.handleClick(key)} >{key}</a>
                             } )
                         }
                     </div>

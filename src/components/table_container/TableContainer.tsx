@@ -1,7 +1,5 @@
 import React from "react";
-import { type } from "os";
 import './TableContainer.css'
-import { object, func } from "prop-types";
 interface TableContainerProps {
     rows: any[],
     type: { new(): any }
@@ -31,7 +29,9 @@ export class TableContainer extends React.Component<TableContainerProps> {
                             Object.keys(newRow).map((key, index:number) => {
                                 key = key.toLocaleLowerCase()
                                 if (!(Object.values(newRow)[index] instanceof Function))
-                                    return <th className="table_column_title">{key.charAt(0).toLocaleUpperCase() + key.slice(1)}</th>
+                                    return <th key={index} className="table_column_title">{key.charAt(0).toLocaleUpperCase() + key.slice(1)}</th>
+                                else 
+                                    return undefined
                             })
                         }
                     </tr>
@@ -39,28 +39,27 @@ export class TableContainer extends React.Component<TableContainerProps> {
                 <tbody>
 
                     {
-                        rows.map((entity) => {
+                        rows.map((entity, index:number) => {
                             return (
-                                <tr className="bordered_row">
+                                <tr key={index} className="bordered_row">
                                     {
                                         Object.values(entity).map((key: any, index: number) => {
                                             if (key instanceof Function) {
-                                                return <th className="button_container">
+                                                return <th key={index} className="button_container">
                                                     <button onClick={e => key(entity)} >{this.renderName(Object.keys(entity)[Object.values(entity).indexOf(key)])}</button>
                                                 </th>
                                             }
-                                            console.log(key)
                                             if ((typeof key === "string") && key.startsWith('https://')) {
-                                                return <th>
+                                                return <th key={index}>
                                                     <a href={key}>link</a>
                                                 </th>
                                             }
                                             if (typeof key === "boolean") {
-                                                return <th>
+                                                return <th key={index}>
                                                     {key?"true":"false"}
                                                 </th>
                                             }
-                                            return <th>
+                                            return <th key={index}>
                                                 {key}
                                             </th>
                                         })

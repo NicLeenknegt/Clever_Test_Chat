@@ -22,10 +22,6 @@ class RecommendationGrid extends React.Component<RecommendationGridProps> {
 
     update: boolean = false
 
-    constructor(props: RecommendationGridProps) {
-        super(props);
-    }
-
     componentDidMount() {
         this.props.thunkGetRecommendation()
     }
@@ -45,7 +41,6 @@ class RecommendationGrid extends React.Component<RecommendationGridProps> {
     }
 
     componentWillUpdate(nextProps: RecommendationGridProps) {
-        console.log(nextProps)
         this.update = this.props.chat.productsPerPage !== nextProps.chat.productsPerPage || this.props.chat.pagination !== nextProps.chat.pagination
     }
 
@@ -53,6 +48,7 @@ class RecommendationGrid extends React.Component<RecommendationGridProps> {
         return (
             <div className="recommendation_container">
                 <div className="recommendation_settings">
+                    
                     <div className="products_per_page">
                         <p> Products / page: </p>
                         <input type="number" value={this.props.chat.productsPerPage} onChange={(e) => { this.props.setProductsPerPage(+e.target.value) }} />
@@ -67,12 +63,18 @@ class RecommendationGrid extends React.Component<RecommendationGridProps> {
                             <span className="pagination_icon right" />
                         </button>
                     </div>
-
+                    <div className="question_flow">
+                        {
+                            this.props.chat.questionFlow.map((value:string, index:number) => {
+                                return (<div key={index} className="flow_tag">{value} </div>)
+                            })
+                        }
+                    </div>
                 </div>
                 <div className="recommendation_grid">
                     {
-                        this.props.chat.recommendations.map((value: Recommendation) => {
-                            return (<RecommendationItem recommendation={value} />)
+                        this.props.chat.recommendations.map((value: Recommendation,index:number) => {
+                            return (<RecommendationItem key={index} recommendation={value} />)
                         })
                     }
                 </div>

@@ -22,7 +22,7 @@ export class TextRender implements IRenderType<ReactElement[]> {
                 
                     this.message.messages.map((text: Text) => {
                         return (
-                            <div className={this.message.renderType === "USER_TEXT" ? "user_message" : "bot_message"}>
+                            <div key={this.message.index} className={this.message.renderType === "USER_TEXT" ? "user_message" : "bot_message"}>
                                 {(text.text)}
                             </div>
                         )

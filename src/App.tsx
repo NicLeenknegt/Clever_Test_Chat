@@ -1,11 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 import ChatContainer from './components/chat/ChatContainer'
 import { TabContainer } from './components/tab_container/TabContainer';
 import  ContextModel  from './components/context/Context';
 import NLP from './components/nlp/NLP'
-import {Notification} from './components/notification/Notification'
 import RecommendationGrid from './components/recommendation/RecommendationGrid';
 
 const App: React.FC = () => {

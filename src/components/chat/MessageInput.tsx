@@ -1,6 +1,5 @@
 import React from 'react';
 import './MessageInput.css'
-import { addMessage } from '../../redux/message/action'
 import { thunkSendMessage } from '../../redux/message/thunk'
 import { ChatState } from '../../redux/message/types'
 import { connect } from 'react-redux';
@@ -30,7 +29,7 @@ class MessageInput extends React.Component<MessageInputProps> {
     }
 
     private handleKeyDown(e:React.KeyboardEvent<HTMLInputElement>) {
-        if (e.key == 'Enter') {
+        if (e.key === 'Enter') {
             this.handleAddMessage()
         }
     }
@@ -63,7 +62,7 @@ class MessageInput extends React.Component<MessageInputProps> {
                 <span className="underline"></span>
             </div>
             <button className="send_button" onClick={e => this.handleAddMessage()}>
-                Versturen
+                Send
             </button>
         </div>)
     }
